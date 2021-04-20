@@ -1,28 +1,38 @@
 package android.exercise.mini.calculator.app;
 
 import java.io.Serializable;
+
 import java.util.Stack;
 
-import static java.lang.Character.isDigit;
+
 
 public class SimpleCalculatorImpl implements SimpleCalculator {
 
-  private Stack calc = new Stack();
+  Stack<String> calc = new Stack<String>();
+  private int result = 0;
+  private char sign = '+';
 
   // todo: add fields as needed
 
   @Override
   public String output() {
     // todo: return output based on the current state
-    // String userInput = editTextTitle.getText().toString();
-    // textViewTitle.setText(userInput);
-    return "reut";
+    if (calc.isEmpty()) {
+      return "0";
+    }
+    return calc.toString();
   }
 
   @Override
   public void insertDigit(int digit) {
-    if (isDigit(digit)) {
-      calc.push(digit);
+    if (digit >= 0 && digit <= 9) {
+      calc.push("digit");
+      if (sign == '+') {
+        result += digit;
+      }
+      else {
+        result -= digit;
+      }
     }
     else {
       throw new IllegalArgumentException();
@@ -32,19 +42,23 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
 
   @Override
   public void insertPlus() {
-    calc.push('+');
+    calc.push("+");
+    sign = '+';
   }
 
   @Override
   public void insertMinus() {
-    calc.push('-');
+    calc.push("-");
+    sign = '-';
   }
 
   @Override
   public void insertEquals() {
     // todo: calculate the equation. after calling `insertEquals()`, the output should be the result
     //  e.g. given input "14+3", calling `insertEquals()`, and calling `output()`, output should be "17"
-    print output();
+    calc.clear();
+    String resultAsString = Integer.toString(result);
+    calc.push(resultAsString);
   }
 
   @Override
@@ -64,13 +78,15 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
   public void clear() {
     // todo: clear everything (same as no-input was never given)
     calc.clear();
+    result = 0;
   }
 
   @Override
   public Serializable saveState() {
-    CalculatorState state = new CalculatorState();
+//    CalculatorState state = new CalculatorState();
     // todo: insert all data to the state, so in the future we can load from this state
-    state = calc.clone();
+//    state.newCalc =  calc.clone();
+    //state.newCalc = (Stack<String>) calc.clone();
     return state;
   }
 
@@ -92,5 +108,8 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     - ArrayList<> where the type is a primitive or a String
     - HashMap<> where the types are primitives or a String
      */
+
+    Stack<String> newCalc = new Stack<String>();
   }
+
 }
