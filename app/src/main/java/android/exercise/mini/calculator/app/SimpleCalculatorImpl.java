@@ -1,17 +1,14 @@
 package android.exercise.mini.calculator.app;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
-
 
 public class SimpleCalculatorImpl implements SimpleCalculator {
 
-  ArrayList<String> calc = new ArrayList<String>();
+  // todo: add fields as needed
+  ArrayList<String> calc = new ArrayList<>();
   private int result = 0;
   private char sign = '+';
-
-  // todo: add fields as needed
 
   @Override
   public String output() {
@@ -36,7 +33,6 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     else {
       throw new IllegalArgumentException();
     }
-
   }
 
   @Override
@@ -82,10 +78,11 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
 
   @Override
   public Serializable saveState() {
-//    CalculatorState state = new CalculatorState();
+    CalculatorState state = new CalculatorState();
     // todo: insert all data to the state, so in the future we can load from this state
-//    state.newCalc =  calc.clone();
-    //state.newCalc = (Stack<String>) calc.clone();
+    state.calc = new ArrayList<>(calc);
+    state.result = result;
+    state.sign = sign;
     return state;
   }
 
@@ -96,6 +93,9 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     }
     CalculatorState casted = (CalculatorState) prevState;
     // todo: use the CalculatorState to load
+    this.calc = casted.calc;
+    this.result = casted.result;
+    this.sign = casted.sign;
   }
 
   private static class CalculatorState implements Serializable {
@@ -107,8 +107,8 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     - ArrayList<> where the type is a primitive or a String
     - HashMap<> where the types are primitives or a String
      */
-
-    Stack<String> newCalc = new Stack<String>();
+    ArrayList<String> calc;
+    private int result = 0;
+    private char sign = '+';
   }
-
 }
