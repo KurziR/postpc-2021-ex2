@@ -2,13 +2,12 @@ package android.exercise.mini.calculator.app;
 
 import java.io.Serializable;
 
-import java.util.Stack;
-
+import java.util.ArrayList;
 
 
 public class SimpleCalculatorImpl implements SimpleCalculator {
 
-  Stack<String> calc = new Stack<String>();
+  ArrayList<String> calc = new ArrayList<String>();
   private int result = 0;
   private char sign = '+';
 
@@ -26,7 +25,7 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
   @Override
   public void insertDigit(int digit) {
     if (digit >= 0 && digit <= 9) {
-      calc.push("digit");
+      calc.add("digit");
       if (sign == '+') {
         result += digit;
       }
@@ -42,13 +41,13 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
 
   @Override
   public void insertPlus() {
-    calc.push("+");
+    calc.add("+");
     sign = '+';
   }
 
   @Override
   public void insertMinus() {
-    calc.push("-");
+    calc.add("-");
     sign = '-';
   }
 
@@ -58,7 +57,7 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     //  e.g. given input "14+3", calling `insertEquals()`, and calling `output()`, output should be "17"
     calc.clear();
     String resultAsString = Integer.toString(result);
-    calc.push(resultAsString);
+    calc.add(resultAsString);
   }
 
   @Override
@@ -68,10 +67,10 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     //  if input was "12+3" and called `deleteLast()`, then delete the "3"
     //  if input was "12+" and called `deleteLast()`, then delete the "+"
     //  if no input was given, then there is nothing to do here
-    if (calc.empty()) {
+    if (calc.isEmpty()) {
       return;
     }
-    calc.pop();
+    calc.remove(0);
   }
 
   @Override
