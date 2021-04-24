@@ -62,6 +62,11 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     if (calc.isEmpty()) {
       calc.add("0");
     }
+    int last = calc.size() - 1;
+    String digit = calc.get(last);
+    if (digit == "-" || digit =="+'") {
+      return;
+    }
     if (!lastIsSign) {
       calc.add("+");
       lastIsSign = true;
@@ -100,6 +105,11 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     if (calc.isEmpty()) {
       calc.add("0");
     }
+    int last = calc.size() - 1;
+    String digit = calc.get(last);
+    if (digit == "-" || digit =="+'") {
+      return;
+    }
     if (!lastIsSign) {
       calc.add("-");
       lastIsSign = true;
@@ -137,8 +147,6 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
   public void insertEquals() {
     // todo: calculate the equation. after calling `insertEquals()`, the output should be the result
     //  e.g. given input "14+3", calling `insertEquals()`, and calling `output()`, output should be "17"
-    System.out.println("insertEquals");
-    System.out.println("the result is:" + result);
     if (bufferR.size()!=0) {
       int right = 0;
       for (Integer i : bufferR) {
@@ -159,8 +167,6 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
       }
       bufferL.clear();
       bufferR.clear();
-      System.out.println("the total is:" + result);
-
     }
     calc.clear();
     String resultAsString = Integer.toString(result);

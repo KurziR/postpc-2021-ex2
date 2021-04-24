@@ -152,16 +152,16 @@ public class SimpleCalculatorImplTest {
     calculatorUnderTest.insertDigit(1);
     calculatorUnderTest.insertDigit(3);
     calculatorUnderTest.insertDigit(4);
-    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertPlus();
     calculatorUnderTest.insertDigit(5);
+    calculatorUnderTest.insertMinus();
     calculatorUnderTest.insertPlus();
     calculatorUnderTest.insertDigit(7);
-    calculatorUnderTest.insertMinus();
-    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertPlus();
     calculatorUnderTest.insertMinus();
     calculatorUnderTest.insertDigit(8);
 
-    assertEquals("134-5+7-8", calculatorUnderTest.output());
+    assertEquals("134+5-7+8", calculatorUnderTest.output());
   }
 
   @Test
