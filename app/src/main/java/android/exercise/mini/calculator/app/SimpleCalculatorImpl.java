@@ -8,7 +8,7 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
 
   // todo: add fields as needed
   ArrayList<String> calc = new ArrayList<>();
-  public int result = 0;
+  private int result = 0;
   private char sign = ' ';
   private boolean lastIsSign = false;
   ArrayList<Integer> bufferL = new ArrayList<>();
@@ -27,16 +27,11 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
       exp += element;
     }
     lastIsSign = false;
-//    calc.clear();
-//    String resultAsString = String.valueOf(result);
-//    calc.add(resultAsString);
-//    return resultAsString;
     return exp;
   }
 
   @Override
   public void insertDigit(int digit) {
-    System.out.println("insertDigit");
     if (digit >= 0 && digit <= 9) {
       calc.add(Integer.toString(digit));
       if(bufferL.size() == 0){
@@ -70,7 +65,7 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
       calc.add("+");
       lastIsSign = true;
       if(bufferL.size() !=0 && bufferR.size() !=0){
-        int left =0;
+        int left = 0;
         int right = 0;
         if (result !=0 ){
           left = result;
@@ -95,7 +90,6 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
       if (bufferL.size() !=0 && bufferR.size() ==0){
         sign = '+';
       }
-
     }
   }
 
@@ -112,7 +106,7 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     if (!lastIsSign) {
       calc.add("-");
       lastIsSign = true;
-      if(bufferL.size() !=0 && bufferR.size() !=0){
+      if(bufferL.size() !=0 && bufferR.size() !=0 ){
         int left =0;
         int right = 0;
         if (result !=0 ){
@@ -135,10 +129,9 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
         sign = '-';
         bufferR = new ArrayList<>();
       }
-      if (bufferL.size() !=0 && bufferR.size() ==0){
+      if (bufferL.size() !=0 && bufferR.size() == 0 ){
         sign = '-';
       }
-
     }
   }
 
@@ -164,13 +157,12 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
       if (sign == '-') {
         result = result - right;
       }
-      bufferL.clear();
-      bufferR.clear();
     }
     calc.clear();
     String resultAsString = Integer.toString(result);
     calc.add(resultAsString);
     lastIsSign = false;
+    sign = ' ';
   }
 
   @Override
@@ -197,6 +189,10 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     // todo: clear everything (same as no-input was never given)
     calc.clear();
     result = 0;
+    sign = ' ';
+    lastIsSign = false;
+    bufferR.clear();
+    bufferL.clear();
   }
 
   @Override
