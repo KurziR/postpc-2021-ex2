@@ -2,13 +2,18 @@ package android.exercise.mini.calculator.app;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class SimpleCalculatorImpl implements SimpleCalculator {
 
   // todo: add fields as needed
   ArrayList<String> calc = new ArrayList<>();
-  private int result = 0;
-  private char sign = '+';
+  public int result = 0;
+  private char sign = ' ';
+  private boolean lastIsSign = false;
+  ArrayList<Integer> bufferL = new ArrayList<>();
+  ArrayList<Integer> bufferR = new ArrayList<>();
+
 
   @Override
   public String output() {
@@ -16,19 +21,36 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     if (calc.isEmpty()) {
       return "0";
     }
-    return calc.toString();
+    Iterator<String> itr = calc.iterator();
+    String exp = "";
+    while(itr.hasNext()) {
+      Object element = itr.next();
+      exp += element;
+    }
+    lastIsSign = false;
+//    calc.clear();
+//    String resultAsString = String.valueOf(result);
+//    calc.add(resultAsString);
+//    return resultAsString;
+    return exp;
   }
 
   @Override
   public void insertDigit(int digit) {
+    System.out.println("insertDigit");
     if (digit >= 0 && digit <= 9) {
-      calc.add("digit");
-      if (sign == '+') {
-        result += digit;
+      calc.add(Integer.toString(digit));
+      if(bufferL.size() == 0){
+        bufferL.add(digit);
+      }
+      else if(sign == ' '){
+        bufferL.add(digit);
       }
       else {
-        result -= digit;
+        bufferR.add(digit);
       }
+
+      lastIsSign = false;
     }
     else {
       throw new IllegalArgumentException();
@@ -37,23 +59,113 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
 
   @Override
   public void insertPlus() {
-    calc.add("+");
-    sign = '+';
+    if (calc.isEmpty()) {
+      calc.add("0");
+    }
+    if (!lastIsSign) {
+      calc.add("+");
+      lastIsSign = true;
+      if(bufferL.size() !=0 && bufferR.size() !=0){
+        int left =0;
+        int right = 0;
+        if (result !=0 ){
+          left = result;
+        }
+        else {
+          for (Integer i : bufferL) {
+            left = 10 * left + i;
+          }
+        }
+        for (Integer i : bufferR) {
+          right = 10 * right + i;
+        }
+        if (sign == '+') {
+          result = left + right;
+        }
+        if (sign == '-') {
+          result = left - right;
+        }
+        sign = '+';
+        bufferR = new ArrayList<>();
+      }
+      if (bufferL.size() !=0 && bufferR.size() ==0){
+        sign = '+';
+      }
+
+    }
   }
 
   @Override
   public void insertMinus() {
-    calc.add("-");
-    sign = '-';
+    if (calc.isEmpty()) {
+      calc.add("0");
+    }
+    if (!lastIsSign) {
+      calc.add("-");
+      lastIsSign = true;
+      if(bufferL.size() !=0 && bufferR.size() !=0){
+        int left =0;
+        int right = 0;
+        if (result !=0 ){
+          left = result;
+        }
+        else {
+          for (Integer i : bufferL) {
+            left = 10 * left + i;
+          }
+        }
+        for (Integer i : bufferR) {
+          right = 10*right + i;
+        }
+        if (sign == '+') {
+          result = left + right;
+        }
+        if (sign == '-') {
+          result = left - right;
+        }
+        sign = '-';
+        bufferR = new ArrayList<>();
+      }
+      if (bufferL.size() !=0 && bufferR.size() ==0){
+        sign = '-';
+      }
+
+    }
   }
 
   @Override
   public void insertEquals() {
     // todo: calculate the equation. after calling `insertEquals()`, the output should be the result
     //  e.g. given input "14+3", calling `insertEquals()`, and calling `output()`, output should be "17"
+    System.out.println("insertEquals");
+    System.out.println("the result is:" + result);
+    if (bufferR.size()!=0) {
+      int right = 0;
+      for (Integer i : bufferR) {
+        right = 10*right + i;
+      }
+      if(result ==0){
+        int left = 0;
+        for (Integer i : bufferL) {
+          left = 10*left + i;
+        }
+        result = left;
+      }
+      if (sign == '+') {
+        result = result + right;
+      }
+      if (sign == '-') {
+        result = result - right;
+      }
+      bufferL.clear();
+      bufferR.clear();
+      System.out.println("the total is:" + result);
+
+    }
     calc.clear();
     String resultAsString = Integer.toString(result);
     calc.add(resultAsString);
+    lastIsSign = false;
   }
 
   @Override
@@ -66,7 +178,13 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     if (calc.isEmpty()) {
       return;
     }
-    calc.remove(0);
+    int last = calc.size() - 1;
+    String digit = calc.get(last);
+    if(!lastIsSign) {
+      int digitAsInt = Integer.parseInt(digit);
+      result -= digitAsInt;
+    }
+    calc.remove(last);
   }
 
   @Override
@@ -83,6 +201,9 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     state.calc = new ArrayList<>(calc);
     state.result = result;
     state.sign = sign;
+    state.lastIsSign = lastIsSign;
+    state.bufferL = bufferL;
+    state.bufferR = bufferR;
     return state;
   }
 
@@ -96,6 +217,9 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     this.calc = casted.calc;
     this.result = casted.result;
     this.sign = casted.sign;
+    this.lastIsSign = casted.lastIsSign;
+    this.bufferL = casted.bufferL;
+    this.bufferR = casted.bufferR;
   }
 
   private static class CalculatorState implements Serializable {
@@ -110,5 +234,8 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     ArrayList<String> calc;
     private int result = 0;
     private char sign = '+';
+    private boolean lastIsSign = false;
+    ArrayList<Integer> bufferL = new ArrayList<>();
+    ArrayList<Integer> bufferR = new ArrayList<>();
   }
 }
