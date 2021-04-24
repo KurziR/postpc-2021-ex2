@@ -133,13 +133,9 @@ public class SimpleCalculatorImplTest {
     SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
     // give some input
     calculatorUnderTest.insertDigit(1);
-    //System.out.println(calculatorUnderTest.result);
     calculatorUnderTest.insertDigit(5);
-    //System.out.println(calculatorUnderTest.result);
     calculatorUnderTest.insertMinus();
-    //System.out.println(calculatorUnderTest.result);
     calculatorUnderTest.insertDigit(7);
-    //System.out.println(calculatorUnderTest.result);
     calculatorUnderTest.insertEquals();
 
     assertEquals("8", calculatorUnderTest.output());
@@ -183,17 +179,36 @@ public class SimpleCalculatorImplTest {
 
     assertEquals("128", calculatorUnderTest.output());
   }
-//
-//  @Test
-//  public void when_callingDeleteLast_then_lastOutputShouldBeDeleted(){
-//    // todo: implement test
-//  }
-//
-//  @Test
-//  public void when_callingDeleteLast_then_lastOutputShouldBeDeleted(){
-//    // todo: implement test
-//  }
-//
+
+  @Test
+  public void when_callingDeleteLastWithNoInput_then_OutputShouldBe0(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    calculatorUnderTest.deleteLast();
+
+    assertEquals("0", calculatorUnderTest.output());
+  }
+
+  @Test
+  public void when_callingDeleteLastEnoughTimes_then_OutputShouldBe0(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    calculatorUnderTest.insertDigit(6);
+    calculatorUnderTest.insertDigit(4);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(5);
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertDigit(7);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.deleteLast();
+    calculatorUnderTest.deleteLast();
+    calculatorUnderTest.deleteLast();
+    calculatorUnderTest.deleteLast();
+    calculatorUnderTest.deleteLast();
+    calculatorUnderTest.deleteLast();
+    calculatorUnderTest.deleteLast();
+
+    assertEquals("0", calculatorUnderTest.output());
+  }
+
 //  @Test
 //  public void when_callingDeleteLast_then_lastOutputShouldBeDeleted(){
 //    // todo: implement test

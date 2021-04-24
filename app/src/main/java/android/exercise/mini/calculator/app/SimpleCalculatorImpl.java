@@ -14,7 +14,6 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
   ArrayList<Integer> bufferL = new ArrayList<>();
   ArrayList<Integer> bufferR = new ArrayList<>();
 
-
   @Override
   public String output() {
     // todo: return output based on the current state
