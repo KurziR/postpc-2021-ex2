@@ -125,13 +125,7 @@ public class MainActivity extends AppCompatActivity {
   protected void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
     // todo: save calculator state into the bundle
-    outState.putInt("result", calculator.result);
-    outState.putChar("sign", calculator.sign);
-    outState.putBoolean("lastIsSign", calculator.lastIsSign);
-    outState.putIntegerArrayList("bufferL", calculator.bufferL);
-    outState.putStringArrayList("bufferR", calculator.bufferR);
-    outState.putStringArrayList("calc", calculator.calc);
-    outState.putIntegerArrayList("outputScreen", calculator.bufferL);
+    outState.putSerializable("calc", calculator.saveState());
 
   }
 
@@ -139,7 +133,9 @@ public class MainActivity extends AppCompatActivity {
   protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
     super.onRestoreInstanceState(savedInstanceState);
     // todo: restore calculator state from the bundle, refresh main text-view from calculator's output
+    calculator.loadState(savedInstanceState.getSerializable("calc"));
     TextView textViewCalculatorOutput = findViewById(R.id.textViewCalculatorOutput);
-    //textViewCalculatorOutput.setText();
+    textViewCalculatorOutput.setText(calculator.output());
+
   }
 }
