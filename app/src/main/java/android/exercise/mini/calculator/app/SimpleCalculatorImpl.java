@@ -17,6 +17,7 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
   @Override
   public String output() {
     // todo: return output based on the current state
+    System.out.println("output");
     if (calc.isEmpty()) {
       return "0";
     }
@@ -53,6 +54,7 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
 
   @Override
   public void insertPlus() {
+    System.out.println("plus");
     if (calc.isEmpty()) {
       calc.add("0");
     }
