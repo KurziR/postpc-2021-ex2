@@ -159,7 +159,7 @@ public class SimpleCalculatorImplTest {
   @Test
   public void when_inputHasMultipleOrders_then_onlyFirstOrder(){
     SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
-    // given some input "134+5-7+-8=", expected output is "134+5-7+8"
+    // given some input "134+5-7+-8", expected output is "134+5-7+8"
     calculatorUnderTest.insertDigit(1);
     calculatorUnderTest.insertDigit(3);
     calculatorUnderTest.insertDigit(4);

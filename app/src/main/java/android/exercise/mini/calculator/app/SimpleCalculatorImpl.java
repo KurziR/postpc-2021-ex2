@@ -20,11 +20,19 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     if (calc.isEmpty()) {
       return "0";
     }
+    if (calc.size() == 1 && sign != ' ') {
+      calc.add("0");
+    }
     Iterator<String> itr = calc.iterator();
     String exp = "";
     while(itr.hasNext()) {
       Object element = itr.next();
       exp += element;
+    }
+    int last = calc.size() - 1;
+    String digit = calc.get(last);
+    if (digit == "-" || digit == "+") {
+      return exp;
     }
     lastIsSign = false;
     return exp;
@@ -58,7 +66,8 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     }
     int last = calc.size() - 1;
     String digit = calc.get(last);
-    if (digit == "-" || digit =="+'") {
+    if (digit == "-" || digit == "+") {
+      lastIsSign = true;
       return;
     }
     if (!lastIsSign) {
@@ -100,7 +109,8 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     }
     int last = calc.size() - 1;
     String digit = calc.get(last);
-    if (digit == "-" || digit =="+'") {
+    if (digit == "-" || digit == "+") {
+      lastIsSign = true;
       return;
     }
     if (!lastIsSign) {
@@ -161,6 +171,8 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     calc.clear();
     String resultAsString = result.toString();
     calc.add(resultAsString);
+    bufferL.clear();
+    bufferL.add(result);
     lastIsSign = false;
     sign = ' ';
     result = 0;
@@ -178,17 +190,20 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     }
     int last = calc.size() - 1;
     String digit = calc.get(last);
+    if (digit == "-" || digit == "+") {
+      sign = ' ';
+      calc.remove(last);
+      return;
+    }
     calc.remove(last);
     if(bufferR.size() != 0){
-      int lastR = bufferR.size() - 1;
-      bufferR.remove(lastR);
+      bufferR.remove(bufferR.size() - 1);
     }
     else if(sign != ' '){
       sign = ' ';
     }
-    else {
-      int lastL = bufferL.size() - 1;
-      bufferL.remove(lastL);
+    else if(bufferL.size() != 0){
+      bufferL.remove(bufferL.size() - 1);
     }
   }
 
