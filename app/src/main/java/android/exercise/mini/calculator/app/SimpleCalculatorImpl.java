@@ -8,7 +8,7 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
 
   // todo: add fields as needed
   ArrayList<String> calc = new ArrayList<>();
-  private int result = 0;
+  private Integer result = 0;
   private char sign = ' ';
   private boolean lastIsSign = false;
   ArrayList<Integer> bufferL = new ArrayList<>();
@@ -17,7 +17,6 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
   @Override
   public String output() {
     // todo: return output based on the current state
-    System.out.println("output");
     if (calc.isEmpty()) {
       return "0";
     }
@@ -54,7 +53,6 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
 
   @Override
   public void insertPlus() {
-    System.out.println("plus");
     if (calc.isEmpty()) {
       calc.add("0");
     }
@@ -146,7 +144,7 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
       for (Integer i : bufferR) {
         right = 10*right + i;
       }
-      if(result ==0){
+      if(result == 0) {
         int left = 0;
         for (Integer i : bufferL) {
           left = 10*left + i;
@@ -161,10 +159,11 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
       }
     }
     calc.clear();
-    String resultAsString = Integer.toString(result);
+    String resultAsString = result.toString();
     calc.add(resultAsString);
     lastIsSign = false;
     sign = ' ';
+    result = 0;
   }
 
   @Override
@@ -179,11 +178,18 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     }
     int last = calc.size() - 1;
     String digit = calc.get(last);
-    if(!lastIsSign) {
-      int digitAsInt = Integer.parseInt(digit);
-      result -= digitAsInt;
-    }
     calc.remove(last);
+    if(bufferR.size() != 0){
+      int lastR = bufferR.size() - 1;
+      bufferR.remove(lastR);
+    }
+    else if(sign != ' '){
+      sign = ' ';
+    }
+    else {
+      int lastL = bufferL.size() - 1;
+      bufferL.remove(lastL);
+    }
   }
 
   @Override

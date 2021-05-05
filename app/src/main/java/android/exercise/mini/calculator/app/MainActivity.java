@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
 
     textViewCalculatorOutput.setText(calculator.output());
 
-
     buttonEquals.setOnClickListener(v -> {
       calculator.insertEquals();
       textViewCalculatorOutput.setText(calculator.output());

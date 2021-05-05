@@ -82,6 +82,7 @@ public class AppFlowTest {
     // run clicks on "7+5<backspace>4="
     for (View button: Arrays.asList(
       button7, buttonPlus, button5, buttonBackspace, button4, buttonEquals
+
     )) {
       button.performClick();
     }
